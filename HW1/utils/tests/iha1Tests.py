@@ -289,7 +289,7 @@ def test_layer(Class, relu, sigmoid, softmax):
     layer_sm = Class(2,1, activation_fn=sigmoid)
     a_sm = layer_sm.forward_prop(test_case_sm['input'])
     assert a_sm.shape == (3,1), "The shape of the output of forward_prop with softmax activation function is not right. Expected: (3,1). Actual: {0}".format(a_sm.shape)
-    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-05, atol=1e-05), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{0}".format(test_case_sm['expected'], a_sm)
+    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-05, atol=1e-05), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{1}".format(test_case_sm['expected'], a_sm)
 
     
     # softmax layer
@@ -309,7 +309,7 @@ def test_layer(Class, relu, sigmoid, softmax):
     layer_sm = Class(2,4, activation_fn=softmax)
     a_sm = layer_sm.forward_prop(test_case_sm['input'])
     assert a_sm.shape == (3,4), "The shape of the output of forward_prop with softmax activation function is not right. Expected: (3,4). Actual: {0}".format(a_sm.shape)
-    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-07, atol=1e-06), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{0}".format(test_case_sm['expected'], a_sm)
+    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-07, atol=1e-06), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{1}".format(test_case_sm['expected'], a_sm)
 
     print('Test passed')
     
@@ -388,7 +388,7 @@ def test_layer_with_backprop(Class):
     layer_sm = Class(2,4, activation_fn='softmax')
     a_sm = layer_sm.forward_prop(test_case_sm['input'])
     assert a_sm.shape == (4, 3), "The shape of the output of forward_prop with softmax activation function is not right. Expected: (4,3). Actual: {0}".format(a_sm.shape)
-    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-07, atol=1e-06), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{0}".format(test_case_sm['expected'], a_sm)
+    assert np.allclose(a_sm, test_case_sm['expected'], rtol=1e-07, atol=1e-06), "Forward prop with softmax returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{1}".format(test_case_sm['expected'], a_sm)
     
     # backward check
     
@@ -441,11 +441,12 @@ def test_neuralnetwork(Class):
     
     # layers dims and order tests
     assert nn.input_n == 3, "`input_n` has the wrong dimensions. Expected: {0}. Actual: {1}".format(3, nn.input_n)
+    assert dims == [2,3], "Constructor should not modify its parameters"
     _dims = [3] + dims
-    for i in range(len(nn.layers)):
-        assert nn.layers[i].w.shape == (_dims[i], _dims[i+1]), "Hidden layer {0} has the wrong weight matrix shape in a neural network with the hidden dimensions {1}. Expected: {2}. Actual: {3}".format(i+1, dims, (_dims[i-1], _dims[i]), nn.layers[i].w.shape) 
-        assert nn.layers[i].b.shape == (1,_dims[i+1]), "Hidden layer {0} has the wrong bias shape in a neural network with the hidden dimensions {1}. Expected: {2}. Actual: {3}".format(i+1, dims, (_dims[i+1], 1), nn.layers[i].b.shape) 
     
+    for i in range(len(nn.layers)-1):
+        assert nn.layers[i].w.shape == (_dims[i], _dims[i+1]), "Hidden layer {0} has the wrong weight matrix shape in a neural network with the hidden dimensions {1}. Expected: {2}. Actual: {3}".format(i+1, dims, (_dims[i], _dims[i+1]), nn.layers[i].w.shape)
+        assert nn.layers[i].b.shape == (1,_dims[i+1]), "Hidden layer {0} has the wrong bias shape in a neural network with the hidden dimensions {1}. Expected: {2}. Actual: {3}".format(i+1, dims, (_dims[i+1], 1), nn.layers[i].b.shape)
     # forward prop tests
     assert y_pred.shape == (2,3), "The shape of the output of forward_prop for the neural network is not right. Expected: (2,3). Actual: {0}".format(y_pred.shape)
     assert np.allclose(y_pred, test_case['y_pred'], rtol=1e-07, atol=1e-06), "Forward prop with relu returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{1}".format(test_case['y_pred'], y_pred)
@@ -485,7 +486,7 @@ def test_neuralnetwork_with_backprop(Class):
     
     # forward prop tests
     assert y_pred.shape == (3, 2), "The shape of the output of forward_prop for the neural network is not right. Expected: (3,2). Actual: {0}".format(y_pred.shape)
-    assert np.allclose(y_pred, test_case['y_pred'], rtol=1e-07, atol=1e-06), "Forward prop with relu returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{0}".format(test_case['y_pred'], y_pred)
+    assert np.allclose(y_pred, test_case['y_pred'], rtol=1e-07, atol=1e-06), "Forward prop with relu returned the right dimensions, but the wrong output. \nExpected: {0}\nActual: \n{1}".format(test_case['y_pred'], y_pred)
     
     # backward prop shape test. Implementation is tested exhaustively in gradient checking later
     for i in range(len(nn.layers)):
