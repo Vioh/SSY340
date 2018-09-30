@@ -1,2 +1,5 @@
 IHA2/300k.csv
 HA1/data/
+ref
+__pycache__
+.ipynb_checkpoints
