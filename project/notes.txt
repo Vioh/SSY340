@@ -1,0 +1,41 @@
+Main papers, blogpost and articles:
+	Tensorflow GANs  ==> https://wiseodd.github.io/techblog/2016/09/17/gan-tensorflow/
+	Tensorflow CGANs ==> https://wiseodd.github.io/techblog/2016/12/24/conditional-gan-tensorflow/
+	Article on CGANs ==> http://cs231n.stanford.edu/reports/2015/pdfs/jgauthie_final_report.pdf
+	GANs             ==> https://arxiv.org/pdf/1406.2661.pdf
+	CGANs            ==> https://arxiv.org/pdf/1411.1784.pdf
+
+Datasets:
+	Fashion MNIST ==> https://github.com/zalandoresearch/fashion-mnist
+	Car dataset   ==> http://www.cs.toronto.edu/~kriz/cifar.html
+	OTHERS        ==> https://www.analyticsvidhya.com/blog/2018/03/comprehensive-collection-deep-learning-datasets/
+
+
+Questions:
+==========
+
+
+[1] How do we combine X,y together and Z,y together? We can of course concatenate them, but since X is a picture (training image), how we do concatenate them when they are of different dimensions? Especially when we have convolutional layers in the beginning?
+
+
+[2] Do we add the y-vector to both D and G during training? And do we do the same thing when we test our model?
+
+==> Answer: Probably yes. Let's take Fashion MNIST for example, suppose M=G(Z,y), then our generator will take in a random noise Z as input, as well as a conditional parameter of specific class that we want to generate (e.g. y='shoes'), then if our generator is good, the output image M should be an image of class 'shoes' that doesn't look fake. As for the discriminator, suppose d=D(X,y), then this means that given any test image X and a specific class label (e.g. y='shoes'), the discriminator will try to decide whether X is a fake or a real image. In other words, 'd is the probability that X is real. 
+
+
+[3] What exactly is the dimension of the noise input Z for the generator? Is Z simply a vector? Or is it a matrix of some kind and our job is to transform it into an image? What about RGB values for the noise Z? In general, how do we generate these noise inputs? By uniform distribution? Or are there some specific trick to creating it?
+
+
+[4] What is the basic architecture for the discriminator? How do we define the architecture that can receive both X and y?
+
+
+[5] Similarly, what is the basic architecture for the generator? How do we define the architecture that can receive both Z and y?
+
+
+[6] What is the loss function to train the discrimator and the generator with back propagation? The main GANs paper describe the min-max value function, how do we interpret that equation? How do we even use that equation?
+
+
+[7] Do we have to do upsample in the generator from the noise vector Z? If yes, how do we upsample it? Through convolutions with more padding?
+
+
+
