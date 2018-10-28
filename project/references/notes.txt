@@ -38,8 +38,9 @@ Questions:
 
 [6] What is the loss function to train the discrimator and the generator with back propagation? The main GANs paper describe the min-max value function, how do we interpret that equation? How do we even use that equation?
 
-
 [7] Do we have to do upsample in the generator from the noise vector Z? If yes, how do we upsample it? Through convolutions with more padding?
+
+[8] How do we train and test? In other words, how do we use the algorithm described in the GANs paper?
 
 
 
